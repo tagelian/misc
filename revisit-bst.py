@@ -6,6 +6,7 @@ Created on Thu Jul 12 11:01:08 2018
 """
 
 # created by cui 11:02 20180712 Thursday
+# finally done on 14:30 
 #------------------------------------------------------------------------------
 class TreeNode:
     def __init__(self, x):
@@ -49,15 +50,14 @@ def TreeConstruct(root, A):
 def TreeSearch(root, k):
     """
     have some problems with recursive TreeSearch func 11:33 20180712 Thursday
+    deal with this problem , forget to "return " 14:28 20180712 Thursday
     """
     if root == None or root.key == k:
         return root
     elif k < root.key:
-        root = root.left
-        TreeSearch(root, k)
+        return TreeSearch(root.left, k)
     else:
-        root = root.right
-        TreeSearch(root, k)
+        return TreeSearch(root.right, k)
 #------------------------------------------------------------------------------
 def IterativeTreeSearch(root, k):
     while root != None and root.key != k:
@@ -133,6 +133,7 @@ def TreeDelete(root, z):
 testlist = [2,1,3,5,4]
 root = None
 root = TreeConstruct(root, testlist)
+#print(TreeSearch(root, 1).key)
 #root= TreeDelete(root, root)
 #TreeInorder(root)
 #root = transplant(root, root, root.right)
