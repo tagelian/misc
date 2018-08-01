@@ -312,6 +312,118 @@ W = [[0, 10, infi, 5, infi],
      [infi, 3, 9, 0, 2],
      [7, infi, 6, infi, 0]]
 Prim(UG,a,UW,hash2)
+#------------------------------------------------------------------------------
+class NODE:
+    def __init__(self,key):
+        self.key = key
+        self.p = None
+        self.rank = 0
+#------------------------------------------------------------------------------
+def makeSet(x):
+    t = NODE(x)
+    t.p = t
+    return t
+# caution , the below parameter x, y are node, not Vertex.
+def findSet(x):
+    if x.p != x:
+        x.p = findSet(x.p)
+    return x.p
+def Link(x,y):
+    if x.rank > y.rank:
+        y.p = x
+    else:
+        x.p = y
+        if x.rank == y.rank:
+            y.rank += 1
+def Union(x,y):
+    Link(findSet(x),findSet(y))    
+#------------------------------------------------------------------------------
+# =============================================================================
+# setA = makeSet(a)
+# setB =makeSet(b)
+# #Union(setA,setB)
+# print(findSet(setA) == findSet(setB))
+# =============================================================================
+class STACK:
+    def __init__(self):
+        self.size = 100
+        self.top = 0
+        self.A = [Vertex()] * self.size
+    def push(self,x):
+        if self.top >= self.size - 1:
+            print('stack is goting to be overflow, exit.')
+            return
+        self.top += 1
+        self.A[self.top] = x
+        
+    def pop(self):
+        if self.top < 0:
+            print('stack is going to be underflow, exit.')
+            return
+        x = self.A[self.top]
+        self.top -= 1
+        return x
+    def isEmpty(self):
+        return self.top < 0
+#------------------------------------------------------------------------------
+time2 = 0
+def DFSiterable_visit(Adj, u):
+    global time2
+    S = STACK()
+    u.d = 0
+    S.push(u)
+    while not S.isEmpty:
+        u = S.A[S.top]
+        if u.color == 0:
+            u.color = 1
+            time2 += 1
+            u.d = time2
+        if u.color == 1:
+            
+            u.color = 2
+            time2 += 1
+            u.f = time2
+            S.pop()
+            continue
+        if len(Adj[u]):
+            for v in Adj[u]:
+                if v.color == 0 and v not in S.A:
+                    v.pi = u
+                    S.push(v)
+            
+            
+def DFSiterable(Adj):
+    global time2
+    for u in Adj:
+        if u.color == 0:
+            DFSiterable_visit(Adj, u)
+#------------------------------------------------------------------------------
+DFSiterable(G)
+for u in G:
+    print(u.color, u.f)
+            
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#------------------------------------------------------------------------------
 #Print(UG,a,i)
 # =============================================================================
 # for x in UG[a]:
