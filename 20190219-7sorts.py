@@ -111,8 +111,7 @@ class Sort:
             largest = r
         if largest != i:
             nums[largest], nums[i] = nums[i], nums[largest]
-            self.maxify(nums, l)
-            self.maxify(nums, r)
+            self.maxify(nums, largest)
     def build_heap(self, nums):
         self.heap_size = len(nums)
         for i in range(len(nums)//2-1, -1, -1):
